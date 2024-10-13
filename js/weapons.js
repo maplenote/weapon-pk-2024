@@ -1,3 +1,27 @@
+const noWeapon =  {
+  "name": "空手",
+  "imagePath": {
+    "handHeld": null,
+    "flyOut": null,
+    "effectName": null,
+  },
+  "durability": 100000, //耐久，執行一次扣1
+  "attack": { //攻擊
+    "powerRange": [1, 10], //攻擊力範圍
+    "criticalHit": 0.5, //爆擊機率(爆極為2倍攻擊)
+    "delaySec": 0.2 //攻擊速度
+  },
+  "defense": {
+    "baseReduce": 0, //基礎增加防禦
+    "extraReduce": //額外防禦
+      {
+        "powerRange": [0, 0], //額外防禦數值範圍
+        "probability": 0, //觸發機率
+        "delaySec": 0 //冷卻時間
+      }
+  },
+  "scope": 1 //距離
+};
 var weapons = [
   {
     "name": "鐵劍",

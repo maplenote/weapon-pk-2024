@@ -12,28 +12,74 @@ body
 	width: 100%
 	height: 100%
 
+
+//------
+.inline-block
+	display: inline-block
+.height3em
+	line-height: 2em
+	padding: 0.5em 0
+//------
+
+.btnBox
+	text-align: center
+
 .arena
 	width: $arenaWidth
 	height: $arenaHeight
 	border: solid 1px #000
 	position: relative
-	top: 50%
 	margin: 0 auto
-	margin-top:  -1*$arenaHeight/2
+
+.msg
+	width: 100%
+	line-height: 1.5em
+	text-align: center
+
 	#instantMsg
-		position: absolute
-		bottom: -1.5em
-		height: 1.5em
-		width: 100%
-		line-height: 1.5em
-		overflow: hidden
 		text-align: center
+
+	#allMsg
+		display: inline-block
+		max-height: 100px
+		width: $arenaWidth
+		overflow: auto
+		div
+			border-bottom: solid 1px #ddd
+		.man1
+			text-align: left
+		.man2
+			text-align: right
+			background-color: #eee
+
 
 .people
 	width: $stepWidth
 	height: $stepWidth*2
 	border: solid 1px #000
 	position: absolute
+	opacity: 0
+	transition-property : left
+	transition-timing-function: linear
+	transition-duration: 500ms
+	.loosBox
+		position:	absolute
+		bottom: $stepWidth*3
+		height: 10rem
+		width: 200px
+		//overflow: hidden
+		li
+			list-style: none
+			color: #f00
+			position:	absolute
+			opacity: 0
+			bottom: 10*1.5rem
+			animation-name: lossBloodAnimation
+			animation-duration: 1000ms
+			//animation-delay: 1000ms
+			&.cHit
+				color: #a602ff
+				font-weight: bold
 
 #man1
 	background: #00f
@@ -41,6 +87,8 @@ body
 	//bottom: 0
 	.weapon
 		right: -0.8*$stepWidth
+	.loosBox
+		left: -1*$stepWidth
 
 #man2
 	background: #0f0
@@ -48,29 +96,33 @@ body
 	//bottom: 0
 	.weapon
 		left: -0.8*$stepWidth
+	.loosBox
+		left: 1*$stepWidth
 
 .hp
 	width: $arenaWidth/2
 	height: $perWidth*2
 	border: solid 1px #000
 	position: absolute
-	.Blood
+	.blood
+		transition-duration: 300ms
 		background: #f00
-		width: 100%
+		width: 0
 		height: 100%
 		position: absolute
-	.BloodText
+	.bloodText
 		width: 100%
+		position: absolute
 		z-index: 1
 		text-align: center
 
 #hp1
 	left: 0
-	.Blood
+	.blood
 		left: 0
 #hp2
 	right: 0
-	.Blood
+	.blood
 		right: 0
 
 .weapon
@@ -80,3 +132,16 @@ body
 	top: $perWidth
 	background-color: #ff0
 	border: solid 1px #000
+
+@keyframes lossBloodAnimation
+	0%
+		opacity: 1
+		bottom: 0
+	50%
+		opacity: 1
+	90%
+		color: #aaa
+		opacity: 0
+	100%
+		bottom: 2*1.5rem
+
