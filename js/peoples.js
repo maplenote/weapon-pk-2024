@@ -30,7 +30,7 @@ function resetHp() {
 function loosBlood(name, blood,hitFlag) {
   let $loosBox = $("#"+name+" .loosBox");
   let $li = $("<li"+((hitFlag)?" class='cHit'":"")+">- "+blood+((hitFlag)?" ! ":"")+"</li>");
-  $li.css('left',getRandom(-1.5,1.5)+'em'); //隨機一下位置才不會疊在一起
+  $li.css('left',getRandom(-1.6,1.6,0.2)+'em'); //隨機一下位置才不會疊在一起
   $loosBox.append($li);
   setTimeout(function(){$li.remove()},5000); //5秒後刪除<li>防止過多
 

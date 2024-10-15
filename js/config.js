@@ -12,43 +12,28 @@ function setConfig(key, val) {
   config[key] = val;
 }
 
-function getDecimalLength(floatNum) {
-  let decimalMatch = /^\d+\.(\d+)?$/.exec(floatNum);
-  if (decimalMatch === null) {
-    return 0;
+function getRandom(min, max, step = null) {
+  min = Number(min);
+  max = Number(max);
+  step = Number(step);
+  if (Number.isNaN(min) || Number.isNaN(max)) {
+    throw "params not numeric value";
   }
-  return decimalMatch[1].length;
+  // 允許部傳遞 step，並處理指定 0 的狀況
+  if (Number.isNaN(step) || step === 0) {
+    const minDecimals = (min.toString().split(".")[1] || "").length;
+    const maxDecimals = (max.toString().split(".")[1] || "").length;
+    step = Math.pow(10, -1 * Math.max(minDecimals, maxDecimals));
+  }
+  // 計算可選值的總數（gap），無需取絕對值
+  const gap = Math.floor((max - min) / step) + 1;
+
+  // 生成 0 到 gap - 1 之間的隨機整數
+  const randomIndex = Math.floor(Math.random() * gap);
+
+  // 計算 step 的小數點位數
+  const decimals = (step.toString().split('.')[1] || []).length;
+
+  // 計算並返回具體的隨機數值，確保返回指定的小數位
+  return (min + randomIndex * step).toFixed(decimals);
 }
-
-
-function getRandom(min, max) {
-  //要確實頭尾數字都得到相同機率，就不能只是 Math.round(Math.random() * (max - min)) + min，
-  // 這樣 max 跟 min 的機率是中間各值的一半而已
-  let pow;
-  let decimal = getDecimalLength(min);
-  if (getDecimalLength(max) > decimal) {
-    decimal = getDecimalLength(max);
-  }
-  pow = Math.pow(10, decimal);
-  min = parseFloat(min) * pow;
-  max = parseFloat(max) * pow;
-  // console.log(min,max,pow,decimal);
-  if (min > max) { //若大小值傳錯順序
-    return (Math.floor(Math.random() * (min - max +1 )) + max) / pow;
-  } else {
-    return (Math.floor(Math.random() * (max - min +1)) + min) / pow;
-  }
-}
-
-// var testArr = {};
-// minT=1.01;
-// maxT=1.50;
-// for(let i=0;i<100000;i++){
-//   returnNum=getRandom(minT, maxT);
-//   if(testArr ['t'+returnNum]===undefined) {
-//     testArr ['t'+returnNum]=0;
-//   }
-//   testArr ['t'+returnNum]++;
-//
-// }
-// console.log(testArr);
