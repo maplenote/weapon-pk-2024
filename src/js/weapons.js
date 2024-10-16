@@ -1,4 +1,6 @@
-const noWeapon =  {
+var peoples = peoples || {};
+
+const noWeapon = {
   "name": "空手",
   "imagePath": {
     "handHeld": null,
@@ -96,3 +98,12 @@ var weapons = [
     "scope": 8 //距離
   }
 ];
+
+function setWeapon(name, index) {
+  peoples[name1].weaponObj = index;
+}
+
+function initWeapon() {
+  setWeapon('man1', null);
+  setWeapon('man2', null);
+}

@@ -1,3 +1,5 @@
+// import $ from 'jquery';
+
 var config = config || {};
 var peoples = peoples || {};
 var weapons = weapons || {};
@@ -61,8 +63,8 @@ function pauseAction() {
 
 function resetAction() {
   pauseAction();
-  initPositon();
-  resetHp();
+  initPeople();
+  initPositon(); //必須在initPeople之後
 }
 
 function ifMove(name) {

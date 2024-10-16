@@ -1,15 +1,24 @@
+// import $ from 'jquery';
+
 var config = config || {};
 var peoples = {
   man1: {
-    jqueryObj: $("#man1"),
+    jqueryObj: null,
     hp: 0,
     weaponObj: null //空手
   },
   man2: {
-    jqueryObj: $("#man2"),
+    jqueryObj: null,
     hp: 0,
     weaponObj: null
   }
+}
+
+function initPeople() {
+  peoples.man1.jqueryObj = $("#man1");
+  peoples.man2.jqueryObj = $("#man2");
+  setHp('man1', config.baseHp);
+  setHp('man2', config.baseHp);
 }
 
 function getAdversaryName(name) {
@@ -22,19 +31,16 @@ function getHp(name) {
   return peoples[name].hp;
 }
 
-function resetHp() {
-  setHp('man1', config.baseHp);
-  setHp('man2', config.baseHp);
-}
-
-function loosBlood(name, blood,hitFlag) {
-  let $loosBox = $("#"+name+" .loosBox");
-  let $li = $("<li"+((hitFlag)?" class='cHit'":"")+">- "+blood+((hitFlag)?" ! ":"")+"</li>");
-  $li.css('left',getRandom(-1.6,1.6,0.2)+'em'); //隨機一下位置才不會疊在一起
+function loosBlood(name, blood, hitFlag) {
+  let $loosBox = $("#" + name + " .loosBox");
+  let $li = $("<li" + ((hitFlag) ? " class='cHit'" : "") + ">- " + blood + ((hitFlag) ? " ! " : "") + "</li>");
+  $li.css('left', getRandom(-1.6, 1.6, 0.2) + 'em'); //隨機一下位置才不會疊在一起
   $loosBox.append($li);
-  setTimeout(function(){$li.remove()},5000); //5秒後刪除<li>防止過多
+  setTimeout(function () {
+    $li.remove()
+  }, 5000); //5秒後刪除<li>防止過多
 
-  $("#allMsg").prepend("<div class='"+getAdversaryName(name)+"'> Attack "+blood+((hitFlag)?"(爆擊)":"")+"</div>");
+  $("#allMsg").prepend("<div class='" + getAdversaryName(name) + "'> Attack " + blood + ((hitFlag) ? "(爆擊)" : "") + "</div>");
   setHp(name, peoples[name].hp - blood);
 }
 
