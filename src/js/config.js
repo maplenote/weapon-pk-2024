@@ -37,3 +37,9 @@ function getRandom(min, max, step = null) {
   // 計算並返回具體的隨機數值，確保返回指定的小數位
   return (min + randomIndex * step).toFixed(decimals);
 }
+
+module.exports = {
+  config,
+  setConfig,
+  getRandom
+};

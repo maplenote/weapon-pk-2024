@@ -1,4 +1,6 @@
-var peoples = peoples || {};
+// export const peoples = peoples || {};
+
+var modulePeoples = require('./peoples.js')
 
 const noWeapon = {
   "name": "空手",
@@ -24,7 +26,7 @@ const noWeapon = {
   },
   "scope": 1 //距離
 };
-var weapons = [
+const weapons = [
   {
     "name": "鐵劍",
     "imagePath": {
@@ -100,10 +102,18 @@ var weapons = [
 ];
 
 function setWeapon(name, index) {
-  peoples[name1].weaponObj = index;
+  modulePeoples.peoples[name1].weaponObj = index;
 }
 
 function initWeapon() {
   setWeapon('man1', null);
   setWeapon('man2', null);
 }
+
+
+module.exports = {
+  noWeapon,
+  weapons,
+  setWeapon,
+  initWeapon
+};

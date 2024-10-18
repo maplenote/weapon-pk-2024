@@ -1,6 +1,6 @@
-// import $ from 'jquery';
 
-var config = config || {};
+var moduleConfig = require('./config.js')
+
 var peoples = {
   man1: {
     jqueryObj: null,
@@ -17,8 +17,8 @@ var peoples = {
 function initPeople() {
   peoples.man1.jqueryObj = $("#man1");
   peoples.man2.jqueryObj = $("#man2");
-  setHp('man1', config.baseHp);
-  setHp('man2', config.baseHp);
+  setHp('man1', moduleConfig.config.baseHp);
+  setHp('man2', moduleConfig.config.baseHp);
 }
 
 function getAdversaryName(name) {
@@ -34,7 +34,7 @@ function getHp(name) {
 function loosBlood(name, blood, hitFlag) {
   let $loosBox = $("#" + name + " .loosBox");
   let $li = $("<li" + ((hitFlag) ? " class='cHit'" : "") + ">- " + blood + ((hitFlag) ? " ! " : "") + "</li>");
-  $li.css('left', getRandom(-1.6, 1.6, 0.2) + 'em'); //隨機一下位置才不會疊在一起
+  $li.css('left', moduleConfig.getRandom(-1.6, 1.6, 0.2) + 'em'); //隨機一下位置才不會疊在一起
   $loosBox.append($li);
   setTimeout(function () {
     $li.remove()
@@ -49,8 +49,8 @@ function setHp(name, hp) {
   hp = Math.round(hp);//四捨五入取整數
   if (hp <= 0) {
     peoples[name].hp = 0;
-  } else if (hp >= config.baseHp) {
-    peoples[name].hp = config.baseHp;//不可設定超過基礎(最大)血量
+  } else if (hp >= moduleConfig.config.baseHp) {
+    peoples[name].hp = moduleConfig.config.baseHp;//不可設定超過基礎(最大)血量
   } else {
     peoples[name].hp = hp;
   }
@@ -60,6 +60,15 @@ function setHp(name, hp) {
   if (name === 'man2') {
     $hp = $("#hp2");
   }
-  $hp.find(".blood").width(Math.ceil((peoples[name].hp / config.baseHp) * 100) + '%');
-  $hp.find(".bloodText").text(peoples[name].hp + ' / ' + config.baseHp);
+  $hp.find(".blood").width(Math.ceil((peoples[name].hp / moduleConfig.config.baseHp) * 100) + '%');
+  $hp.find(".bloodText").text(peoples[name].hp + ' / ' + moduleConfig.config.baseHp);
 }
+
+module.exports = {
+  peoples,
+  initPeople,
+  getAdversaryName,
+  getHp,
+  loosBlood,
+  setHp
+};

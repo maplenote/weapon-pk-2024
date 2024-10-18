@@ -1,15 +1,14 @@
 // import $ from 'jquery';
-
-var config = config || {};
-var peoples = peoples || {};
-var weapons = weapons || {};
+var modulePeoples = require('./peoples.js')
+var moduleConfig = require('./config.js')
+var moduleWeapons = require('./weapons.js')
 
 var timer = 0;
 var postion;
 var $instantMsgDom = $('#instantMsg');
 
 function speedMsec(msec) {
-  let rate = Math.ceil(config.speed);
+  let rate = Math.ceil(moduleConfig.config.speed);
   if (rate < 0) {
     return msec * rate * -1;
   } else if (rate === 0) { //異常
@@ -20,15 +19,15 @@ function speedMsec(msec) {
 }
 
 function action() {
-  if (getHp("man1") === 0 || getHp("man2") === 0) {
+  if (modulePeoples.getHp("man1") === 0 || modulePeoples.getHp("man2") === 0) {
     return false;
   }
   // console.log("into action");
-  let rand = getRandom(1, 2); //隨機取得1或2
+  let rand = moduleConfig.getRandom(1, 2); //隨機取得1或2
   ifMove("man" + rand);
   ifMove("man" + ((rand % 2) + 1));
-  if (getHp("man1") > 0 && getHp("man2") > 0) {
-    timer = setTimeout(action, speedMsec(config.baseMSTime));
+  if (modulePeoples.getHp("man1") > 0 && modulePeoples.getHp("man2") > 0) {
+    timer = setTimeout(action, speedMsec(moduleConfig.config.baseMSTime));
   }
 }
 
@@ -40,15 +39,15 @@ function initPositon() {
   postion = {
     man1: {
       x: 0,
-      y: config.arenaHeight - config.stepWidth * 2,
+      y: moduleConfig.config.arenaHeight - moduleConfig.config.stepWidth * 2,
       direction: 1
     },
     man2: {
-      x: config.arenaWidth - config.stepWidth,
-      y: config.arenaHeight - config.stepWidth * 2,
+      x: moduleConfig.config.arenaWidth - moduleConfig.config.stepWidth,
+      y: moduleConfig.config.arenaHeight - moduleConfig.config.stepWidth * 2,
       direction: -1
     },
-    distance: Math.ceil((config.arenaWidth - config.stepWidth * 2) / config.stepWidth)
+    distance: Math.ceil((moduleConfig.config.arenaWidth - moduleConfig.config.stepWidth * 2) / moduleConfig.config.stepWidth)
   };
   setPosition("man1");
   setPosition("man2");
@@ -63,14 +62,14 @@ function pauseAction() {
 
 function resetAction() {
   pauseAction();
-  initPeople();
+  modulePeoples.initPeople();
   initPositon(); //必須在initPeople之後
 }
 
 function ifMove(name) {
   // console.log("into ifMove");
   if (postion.distance > getWeaponScope(name)) { //目前距離大於武器距離就繼續移動
-    postion[name].x = postion[name].x + config.stepWidth * postion[name].direction;
+    postion[name].x = postion[name].x + moduleConfig.config.stepWidth * postion[name].direction;
     postion.distance--;
     setPosition(name);
   } else {
@@ -80,24 +79,24 @@ function ifMove(name) {
 
 function setPosition(name) {
   // console.log("into setPosition");
-  peoples[name].jqueryObj.css('left', postion[name].x + 'px').css('opacity', 100);
-  peoples[name].jqueryObj.css('top', postion[name].y + 'px').css('opacity', 100);
+  modulePeoples.peoples[name].jqueryObj.css('left', postion[name].x + 'px').css('opacity', 100);
+  modulePeoples.peoples[name].jqueryObj.css('top', postion[name].y + 'px').css('opacity', 100);
   $instantMsgDom.text('目前距離' + postion.distance); //+'<br />'+instantMsgDom.innerHTML;
 }
 
 function setSpeed(btnVal) {
   let tranMs = 500;//base: 500ms
   btnVal = +(btnVal);
-  setConfig('speed', btnVal);
+  moduleConfig.setConfig('speed', btnVal);
   //處理動態移動速度(在下次觸發setTimeout前必須移動完畢)
-  $(".people").css("transitionDuration", speedMsec(config.baseMSTime) + 'ms');
+  $(".people").css("transitionDuration", speedMsec(moduleConfig.config.baseMSTime) + 'ms');
 }
 
 function takeWeapon(name, index) {
-  if (index === null || weapons[index] === undefined) {
-    peoples[name].weaponObj = JSON.parse(JSON.stringify(noWeapon));//空手
+  if (index === null || moduleWeapons.weapons[index] === undefined) {
+    modulePeoples.peoples[name].weaponObj = JSON.parse(JSON.stringify(moduleWeapons.noWeapon));//空手
   } else {
-    peoples[name].weaponObj = JSON.parse(JSON.stringify(weapons[index])); //clone object
+    modulePeoples.peoples[name].weaponObj = JSON.parse(JSON.stringify(moduleWeapons.weapons[index])); //clone object
   }
 }
 
@@ -111,13 +110,13 @@ function attack(name) {
   if (weaponObj.durability <= 0) {
     return false;
   }
-  let thisPower = getRandom(weaponObj.attack.powerRange[0], weaponObj.attack.powerRange[1]);
+  let thisPower = moduleConfig.getRandom(weaponObj.attack.powerRange[0], weaponObj.attack.powerRange[1]);
   if (Math.random() <= weaponObj.attack.criticalHit) {
     criticalHitFlag = true;
     thisPower = thisPower * 2;
   }
   //TODO 規劃時攻速未考慮到，setTimeout需要重新改寫
-  loosBlood(getAdversaryName(name), thisPower, criticalHitFlag);
+  modulePeoples.loosBlood(modulePeoples.getAdversaryName(name), thisPower, criticalHitFlag);
   // weaponObj.attack.powerRange
   weaponObj.durability--;//扣耐久
 }
@@ -129,9 +128,9 @@ function getWeaponScope(name) {
 }
 
 function getWeaponObj(name) {
-  let weaponObj = peoples[name].weaponObj;
+  let weaponObj = modulePeoples.peoples[name].weaponObj;
   if (weaponObj === null) {
-    weaponObj = JSON.parse(JSON.stringify(noWeapon)); //空手
+    weaponObj = JSON.parse(JSON.stringify(moduleWeapons.noWeapon)); //空手
   }
   return weaponObj;
 }
@@ -161,3 +160,4 @@ $(function () {
       .find("input:checked").parent('label').addClass('pure-button-active');
   });
 });
+
