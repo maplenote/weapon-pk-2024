@@ -1,3 +1,5 @@
+@use 'sass:math'
+
 @import "var"
 
 *,
@@ -60,15 +62,24 @@ body
 
 
 .people
-	width: $stepWidth
-	height: $stepWidth*2
-	border: solid 1px #000
+	width: $stepWidth*2
+	height: $stepWidth*3
+	//border: solid 1px #000
 	position: absolute
 	opacity: 0
+	background-repeat: no-repeat
+	background-size:  $stepWidth*2 $stepWidth*3
 	transition-property: left
 	transition-timing-function: linear
 	transition-duration: 500ms
-
+	.hand1,
+	.hand2
+		//border: solid 1px #000
+		transition-property: all
+		transition-duration: 100ms
+		//transition-timing-function: linear
+		background-repeat: no-repeat
+		background-size: calc($stepWidth*0.7)
 	.loosBox
 		position: absolute
 		bottom: $stepWidth*3
@@ -89,22 +100,40 @@ body
 				font-weight: bold
 
 #man1
-	background: #00f
+	//background: #00f
+	background-image: url('../images/man1_1.png')
+	background-position: right bottom
 	//left: 0
 	//bottom: 0
-	.weapon
-		right: -0.8*$stepWidth
-
+	.hand1
+		right: -0.5*$stepWidth
+		background-image: url('../images/man1_hand1.png')
+		background-position: left top
+		transform-origin: top left
+	.hand2
+		right: -0.5*$stepWidth
+		background-image: url('../images/man1_hand2.png')
+		background-position: left top
+		transform-origin: top left
 	.loosBox
 		left: -1*$stepWidth
 
 #man2
-	background: #0f0
+	//background: #0f0
+	background-image: url('../images/man2_1.png')
+	background-position: right bottom
 	//left: $arenaWidth - $stepWidth
 	//bottom: 0
-	.weapon
-		left: -0.8*$stepWidth
-
+	.hand1
+		left: -0.5*$stepWidth
+		background-image: url('../images/man2_hand1.png')
+		background-position: right top
+		transform-origin: top right
+	.hand2
+		left: -0.5*$stepWidth
+		background-image: url('../images/man2_hand2.png')
+		background-position: right top
+		transform-origin: top right
 	.loosBox
 		left: 1*$stepWidth
 
@@ -139,13 +168,19 @@ body
 	.blood
 		right: 0
 
-.weapon
+.hand1
 	width: $stepWidth
 	height: $stepWidth
 	position: absolute
-	top: $perWidth
-	background-color: #ff0
-	border: solid 1px #000
+	top: $stepWidth*1.5
+	//background-color: #ff0
+	//border: solid 1px #000
+
+.hand2
+	width: $stepWidth
+	height: $stepWidth
+	position: absolute
+	top: $stepWidth*1.7
 
 @keyframes lossBloodAnimation
 	0%

@@ -24,7 +24,7 @@ const noWeapon = {
         "delaySec": 0 //冷卻時間
       }
   },
-  "scope": 1 //距離
+  "scope": 0 //距離
 };
 const weapons = [
   {

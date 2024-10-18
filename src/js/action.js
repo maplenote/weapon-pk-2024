@@ -39,18 +39,19 @@ function initPositon() {
   postion = {
     man1: {
       x: 0,
-      y: moduleConfig.config.arenaHeight - moduleConfig.config.stepWidth * 2,
+      y: moduleConfig.config.arenaHeight - moduleConfig.config.stepWidth * 3,
       direction: 1
     },
     man2: {
-      x: moduleConfig.config.arenaWidth - moduleConfig.config.stepWidth,
-      y: moduleConfig.config.arenaHeight - moduleConfig.config.stepWidth * 2,
+      x: moduleConfig.config.arenaWidth - moduleConfig.config.stepWidth*2,
+      y: moduleConfig.config.arenaHeight - moduleConfig.config.stepWidth * 3,
       direction: -1
     },
-    distance: Math.ceil((moduleConfig.config.arenaWidth - moduleConfig.config.stepWidth * 2) / moduleConfig.config.stepWidth)
+    distance: Math.ceil((moduleConfig.config.arenaWidth - moduleConfig.config.stepWidth * 4) / moduleConfig.config.stepWidth)
   };
   setPosition("man1");
   setPosition("man2");
+  $('.hand1,.hand2').css('rotate','1deg');
 }
 
 function pauseAction() {
@@ -103,6 +104,7 @@ function takeWeapon(name, index) {
 
 function attack(name) {
   let weaponObj = getWeaponObj(name);
+  let $people = modulePeoples.peoples[name].jqueryObj;
   let criticalHitFlag = false;
   if (postion.distance > weaponObj.scope) {
     return false;
@@ -115,6 +117,8 @@ function attack(name) {
     criticalHitFlag = true;
     thisPower = thisPower * 2;
   }
+  $people.find('.hand1').css('rotate',moduleConfig.getRandom(-60,60)+'deg');
+  $people.find('.hand2').css('rotate',moduleConfig.getRandom(-30,30)+'deg');
   //TODO 規劃時攻速未考慮到，setTimeout需要重新改寫
   modulePeoples.loosBlood(modulePeoples.getAdversaryName(name), thisPower, criticalHitFlag);
   // weaponObj.attack.powerRange
