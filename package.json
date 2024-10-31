@@ -8,7 +8,7 @@
     "watch": "webpack --mode development --watch",
     "build": "webpack",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --repo=https://github.com/maplenote/weapon-pk-2024.git"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/maplenote/weapon-pk-2024/issues"
   },
-  "homepage": "https://github.com/maplenote/weapon-pk-2024#readme",
+  "homepage": "https://github.com/maplenote/weapon-pk-2024",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "gh-pages": "^6.2.0",
