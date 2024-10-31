@@ -1,2 +1,1 @@
-# weapon-pk-2024
-Simplistic! Fun! just for children~
+# weapon-pk-2024Simplistic! Fun! just for children~  [Demo](https://maplenote.github.io/weapon-pk-2024/)
